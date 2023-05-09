@@ -11,15 +11,18 @@ public class Util {
     private static String DRIVER = "org.postgresql.Driver";
     private static String URL = "jdbc:postgresql://localhost:5432/";
     private static String DATABASE = "dataBaseTest";
-    private static String USERNAME = scanner.nextLine();
-    private static String PASS = scanner.nextLine();
+
+    private static String USERNAME = scanner.nextLine();/**/
+
+    private static String PASS = scanner.nextLine(); /*;*/
 
     public static Connection getJdbcConnection() {
+
         while (dbConnection == null) {
 
             try {
                 Class.forName(DRIVER);
-                System.out.println("Драйте успешно загружен");
+                System.out.println("Драйвер успешно загружен");
             } catch (ClassNotFoundException e) {
                 System.out.println("Не удалось загрузить драйвер");
                 break;
