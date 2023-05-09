@@ -46,11 +46,10 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        PreparedStatement statement = null;
+        PreparedStatement statement ;
         try {
             statement = connection.prepareStatement(
-                    "insert into users (name, lastname, age)" + "VALUES (?,?,?)" +
-                    "");
+                    "insert into users (name, lastname, age)" + "VALUES (?,?,?)");
             connection.setAutoCommit(false);
             statement.setString(1, name);
             statement.setString(2, lastName);

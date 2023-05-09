@@ -27,7 +27,7 @@ public class User {
         this.lastName = lastName;
         this.age = age;
     }
-    public User(long aLong, String name, String lastName, byte age) {
+    public User(long id, String name, String lastName, byte age) {
         this(name, lastName, age);
         this.id = id;
     }
