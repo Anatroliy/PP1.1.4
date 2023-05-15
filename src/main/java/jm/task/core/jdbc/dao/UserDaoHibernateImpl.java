@@ -10,8 +10,9 @@ import java.util.Collections;
 import java.util.List;
 
 
+@SuppressWarnings("rawtypes")
 public class UserDaoHibernateImpl implements UserDao {
-    private Session session = Util.getSession();
+//    private Session session = Util.getSession();
 
     public UserDaoHibernateImpl() {
 
@@ -20,7 +21,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        try {
+        try (Session session = Util.getSession()) {
             session.beginTransaction();
             session.createSQLQuery("CREATE TABLE IF NOT EXISTS users_table(\n" +
                     "                    id        SERIAL  ,\n" +
@@ -33,13 +34,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
         } catch (Exception e) {
             System.out.println("не удалось создать таблицу пользователей");
-             }
+        }
 
     }
 
     @Override
     public void dropUsersTable() {
-        try {
+        try (Session session = Util.getSession()) {
             session.getTransaction().begin();
             session.createSQLQuery("DROP TABLE IF EXISTS users_table").executeUpdate();
             session.getTransaction().commit();
@@ -53,7 +54,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
 //        User user = new User(name, lastName, age);
-        try {
+        try (Session session = Util.getSession()) {
             session.beginTransaction();
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
@@ -65,7 +66,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        try {
+        try (Session session = Util.getSession()) {
             session.getTransaction().begin();
             session.createQuery("DELETE FROM User u WHERE u.id = :id ")
                     .setParameter("id", id)
@@ -83,7 +84,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        try {
+        try (Session session = Util.getSession()) {
             session.getTransaction().begin();
             Query query = session.createQuery("SELECT u FROM User u");
             List<User> users = query.getResultList();
@@ -97,8 +98,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        try {
-            session.getTransaction();
+        try (Session session = Util.getSession()) {
+            session.beginTransaction();
             Query query = session.createQuery("DELETE FROM User u");
             query.executeUpdate();
             session.getTransaction().commit();
